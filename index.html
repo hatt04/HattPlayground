@@ -18,7 +18,7 @@
             port: 8884
         };
 
-        const client = mqtt.connect("wss://7cbc4816c3944b7aabab47a198d1cea1.s1.eu.hivemq.cloud", options);
+        const client = mqtt.connect("wss://7cbc4816c3944b7aabab47a198d1cea1.s1.eu.hivemq.cloud:8884/mqtt", options);
 
         client.on("connect", () => {
             console.log("Terhubung ke broker");
@@ -34,4 +34,5 @@
     </script>
 </body>
 </html>
+
 
