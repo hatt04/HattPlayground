@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monitoring Lansia Realtime</title>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+<body>
+    <h1>Monitoring Lansia</h1>
+    <p>Aktivitas: <span id="activity"></span></p>
+    <p>Status Jatuh: <span id="fallStatus"></span></p>
+    <p>Lokasi: <span id="location"></span></p>
+
+    <script>
+        const options = {
+            username: "safe-fall", // ganti
+            password: "Yono12345", // ganti
+            protocol: "wss",
+            port: 8884
+        };
+
+        const client = mqtt.connect("wss://xxxxx.s1.eu.hivemq.cloud:8884/mqtt", options);
+
+        client.on("connect", () => {
+            console.log("Terhubung ke broker");
+            client.subscribe("safe/telemetry");
+        });
+
+        client.on("message", (topic, message) => {
+            const data = JSON.parse(message.toString());
+            document.getElementById("activity").innerText = data.activity;
+            document.getElementById("fallStatus").innerText = data.fallDetected ? "Jatuh" : "Normal";
+            document.getElementById("location").innerText = `${data.latitude}, ${data.longitude}`;
+        });
+    </script>
+</body>
+</html>
